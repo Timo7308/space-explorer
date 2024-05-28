@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
-    [SerializeField] private float jumpForce = 7f;
+    [SerializeField] private float jumpForce = 8f;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform wallCheckLeft;
