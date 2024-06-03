@@ -3,10 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    // This method will be called when the button is clicked
+    //When the button Start was pressed load level 1. 
     public void StartGame()
     {
-        // Load the first level (assuming it's named "Level1")
+       
         SceneManager.LoadScene("Level1");
     }
 }
+
+/* Not the final structure of the game. Will be extended with another level
+/  and a sub menu to choose the next level. 
+*/

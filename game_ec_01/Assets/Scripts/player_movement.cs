@@ -63,5 +63,5 @@ public class PlayerMovement : MonoBehaviour
 }
 
 /*
-Next steps are: implementation of enemies, lifebar, item collection and creation of own sprites. 
+Next steps: Implementation of enemies, the player can take damage, the player can shoot. 
 */

@@ -3,31 +3,20 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
-    public TMP_Text counterText; // Change the type to TMPro.TextMeshProUGUI
-    private int itemCount = 0;
-    private int maxItemCount = 4; // Change this value to your desired maximum count
+    public TMP_Text counterText; //Text object
+    private int itemCount = 0; //Current number of collected items. 
+    private int maxItemCount = 4; //Max number of collectible items.
 
-    void Start()
-    {
-        // Find the TextMeshPro object by tag
-        counterText = GameObject.FindGameObjectWithTag("CounterText").GetComponent<TMP_Text>(); // Change GetComponent<TextMeshProUGUI>() to GetComponent<TMP_Text>()
 
-        if (counterText == null)
-        {
-            Debug.LogError("CounterText is not assigned and not found by tag.");
-        }
-        else
-        {
-            UpdateCounterText();
-        }
-    }
-
+    //If player is close enough to an item, increase counter by one. 
     public void CollectItem()
     {
         itemCount++;
         UpdateCounterText();
     }
 
+
+    //Display number of collected minerals
     private void UpdateCounterText()
     {
         if (counterText != null)
