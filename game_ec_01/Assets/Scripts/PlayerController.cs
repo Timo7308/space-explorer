@@ -4,107 +4,99 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
+    public TMP_Text counterText;
+    public Image[] lifePointImages;
+    public GameObject gameOverPanel;
+    public GameObject gameWonPanel;
 
-    // Text for collected items, images for life, game over screen, game won screen 
-    public TMP_Text counterText; 
-    public Image[] lifePointImages; 
-    public GameObject gameOverPanel; 
-    public GameObject gameWonPanel; 
 
-    //fallThershold for maximum falling speed
-    public float fallThreshold = 10f; 
-    private Rigidbody2D rb; 
+    //Maximum falling speed
+    public float fallThreshold = 10f;
+    private Rigidbody2D rb;
 
-    //Track falling speed 
-    private float maxFallSpeed; 
-    private PlayerStats playerStats; 
+    private float maxFallSpeed;
+    private PlayerStats playerStats;
 
     void Start() {
-        //Player starts with 3 lifes and has to collect 4 items 
+
+        //Player starts with three lifes and can collect four items. 
         rb = GetComponent<Rigidbody2D>();
-        playerStats = new PlayerStats(3, 4); 
-        UpdateCounterText();
-        UpdateLifePointImages();
+        playerStats = new PlayerStats(3, 4);
+
+        // Subscribe to events
+        playerStats.OnLifeChanged += UpdateLifePointImages;
+        playerStats.OnItemCollected += UpdateCounterText;
+        playerStats.OnGameOver += GameOver;
+        playerStats.OnGameWon += GameWon;
+
+        UpdateCounterText(playerStats.itemCount);
+        UpdateLifePointImages(playerStats.currentLifePoints);
     }
 
-    void FixedUpdate() {
-        //Check falling speed 
+    void FixedUpdate()  {
         if (rb.velocity.y < maxFallSpeed) {
             maxFallSpeed = rb.velocity.y;
         }
     }
 
+    //When the player touches the ground while falling too fast
+    //reduce life points by one and then reset falling speed
     void OnCollisionEnter2D(Collision2D collision) {
-        // Check if player touched the ground
         if (collision.gameObject.CompareTag("Ground")) {
-            // If falling speed is to fast reduce life by one 
             if (maxFallSpeed <= -fallThreshold) {
-                TakeDamage(1);
+                playerStats.TakeDamage(1);
             }
 
-            // Reset falling speed 
             maxFallSpeed = 0f;
         }
     }
 
-    // If player collected all items and collided with the goal object the game is won
-    void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Goal") && playerStats.itemCount >= playerStats.maxItemCount) {
-            GameWon();
+    //Collect item and take damage when tag was found
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Goal") && playerStats.itemCount >= playerStats.maxItemCount)
+        {
+            playerStats.CollectItem();
         }
-        // If player collides with an enemy reduce life by one
-        else if (other.gameObject.CompareTag("Enemy")) {
-            TakeDamage(1);
-        }
-    }
-
-    //If all life points are gone the game is over
-    void TakeDamage(int damageAmount) {
-        playerStats.TakeDamage(damageAmount);
-        UpdateLifePointImages();
-
-        if (playerStats.IsDead()) {
-            GameOver();
+        else if (other.gameObject.CompareTag("Enemy"))
+        {
+            playerStats.TakeDamage(1);
         }
     }
 
-    // If player collects an item, increase counter by one
     public void CollectItem() {
         playerStats.CollectItem();
-        UpdateCounterText();
     }
 
-    // Display number of collected items
-    private void UpdateCounterText() {
+    // Update item counter 
+    private void UpdateCounterText(int itemCount) {
         if (counterText != null) {
-            counterText.text = "Minerals: " + playerStats.itemCount.ToString() + " / " + playerStats.maxItemCount.ToString();
+            counterText.text = "Minerals: " + itemCount.ToString() + " / " + playerStats.maxItemCount.ToString();
         }
     }
 
-    // Update the UI to display life point images
-    private void UpdateLifePointImages() {
+    //Update health bar
+    private void UpdateLifePointImages(int currentLifePoints) {
         for (int i = 0; i < lifePointImages.Length; i++) {
-            lifePointImages[i].enabled = i < playerStats.currentLifePoints;
+            lifePointImages[i].enabled = i < currentLifePoints;
         }
     }
 
+    //Game Over state
     void GameOver() {
-
-        // Activate the Game Over panel
         if (gameOverPanel != null) {
             gameOverPanel.SetActive(true);
         }
     }
 
+    //Game Won state
     void GameWon() {
-
-        // Activate the Game Won panel
         if (gameWonPanel != null) {
             gameWonPanel.SetActive(true);
         }
     }
 
-    // Method to restart the game
+    //Restart Game 
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

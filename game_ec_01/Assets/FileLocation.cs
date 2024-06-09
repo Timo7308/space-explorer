@@ -5,3 +5,7 @@
 // ScriptableObject: DialogueManager Script and DialogueInstruction Script in Assets/Scripts
 
 // Observer Pattern: GameManager Script in Assets/Scripts
+
+// Events: PlayerController Script in Assets/Scripts 
+
+// Action: Menu Script in Assets/Scripts

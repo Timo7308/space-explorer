@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     public GameObject gameOverPanel; 
     public GameObject gameWonPanel; 
     public PlayerController playerController; 
+    public Menu menu;
 
     public int playerLives = 3; 
     public Image[] livesImages; 
@@ -41,6 +42,10 @@ public class GameManager : MonoBehaviour {
 
         // Set initial game state
         SetGameState(GameState.Playing);
+
+        if (menu != null) {
+            menu.OnStartGame = CustomStartGameAction;
+        }
 
     }
 
@@ -134,5 +139,9 @@ public class GameManager : MonoBehaviour {
 
     public void ReturnToMenu() {
         SceneManager.LoadScene("Menu");
+    }
+     private void CustomStartGameAction() {
+        Debug.Log("Custom start game action triggered!");
+        SceneManager.LoadScene("Level1");
     }
 }
