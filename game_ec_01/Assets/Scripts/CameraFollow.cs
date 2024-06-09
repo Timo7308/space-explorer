@@ -13,8 +13,7 @@ public class CameraFollow : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        if (target != null)
-        {
+        if (target != null) {
             // Calculate wanted position of the camera
             Vector3 desiredPosition = target.position + offset;
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);

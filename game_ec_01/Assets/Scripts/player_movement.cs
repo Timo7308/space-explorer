@@ -17,13 +17,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isTouchingWallRight;
     private bool jumpRequest;
 
-    private void Awake()
-    {
+    private void Awake() {
         body = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
-    {
+    private void Update() {
         // Horizontal movement
         float horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
@@ -58,10 +56,9 @@ public class PlayerMovement : MonoBehaviour
         body.velocity = new Vector2(body.velocity.x, jumpForce);
         isGrounded = false; 
     }
-
    
 }
 
 /*
-Next steps: Implementation of enemies, the player can take damage, the player can shoot. 
+Next steps: Still working on moving enemies that can attack the player
 */
