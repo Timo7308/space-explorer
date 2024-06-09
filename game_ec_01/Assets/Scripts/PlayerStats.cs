@@ -1,9 +1,10 @@
 using System;
+using UnityEngine;
 
 public class PlayerStats {
 
-    //Events for life point changes, item collection 
-    //and Game over and Game won 
+
+    //Events
     public event Action<int> OnLifeChanged;
     public event Action<int> OnItemCollected;
     public event Action OnGameOver;
@@ -13,16 +14,19 @@ public class PlayerStats {
     public int maxLifePoints;
     public int itemCount;
     public int maxItemCount;
+    public bool hasTouchedGoal;
 
-    //Life points and max number of items 
+
+    //Manage lifepoints and max number of items
     public PlayerStats(int lifePoints, int maxItems) {
         currentLifePoints = lifePoints;
         maxLifePoints = lifePoints;
         itemCount = 0;
         maxItemCount = maxItems;
+        hasTouchedGoal = false;
     }
 
-    //Handle damage of player
+    //Manage damage of player and initialize game lost if all life points are gone. 
     public void TakeDamage(int damageAmount) {
         currentLifePoints -= damageAmount;
         OnLifeChanged?.Invoke(currentLifePoints);
@@ -32,17 +36,26 @@ public class PlayerStats {
         }
     }
 
-    // Handle item collection
+    //Check collection of items and initialize game won if all conditions are met.
     public void CollectItem() {
         itemCount++;
         OnItemCollected?.Invoke(itemCount);
+
+        if (itemCount >= maxItemCount && hasTouchedGoal) {
+            OnGameWon?.Invoke();
+        }
+    }
+
+    //Check if goal was touched. 
+    public void TouchGoal() {
+        hasTouchedGoal = true;
+        Debug.Log("Goal touched. Items collected: " + itemCount + "/" + maxItemCount);
 
         if (itemCount >= maxItemCount) {
             OnGameWon?.Invoke();
         }
     }
 
-    //If lifepoints are zero the player is dead
     public bool IsDead() {
         return currentLifePoints <= 0;
     }

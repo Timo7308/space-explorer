@@ -9,21 +9,15 @@ public class PlayerController : MonoBehaviour {
     public GameObject gameOverPanel;
     public GameObject gameWonPanel;
 
-
-    //Maximum falling speed
     public float fallThreshold = 10f;
     private Rigidbody2D rb;
-
     private float maxFallSpeed;
     private PlayerStats playerStats;
 
     void Start() {
-
-        //Player starts with three lifes and can collect four items. 
         rb = GetComponent<Rigidbody2D>();
         playerStats = new PlayerStats(3, 4);
 
-        // Subscribe to events
         playerStats.OnLifeChanged += UpdateLifePointImages;
         playerStats.OnItemCollected += UpdateCounterText;
         playerStats.OnGameOver += GameOver;
@@ -33,33 +27,33 @@ public class PlayerController : MonoBehaviour {
         UpdateLifePointImages(playerStats.currentLifePoints);
     }
 
-    void FixedUpdate()  {
+    void FixedUpdate() {
         if (rb.velocity.y < maxFallSpeed) {
             maxFallSpeed = rb.velocity.y;
         }
     }
 
-    //When the player touches the ground while falling too fast
-    //reduce life points by one and then reset falling speed
+    //Check for collision with enemy or ground
     void OnCollisionEnter2D(Collision2D collision) {
+        Debug.Log("Collision entered with: " + collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Ground")) {
             if (maxFallSpeed <= -fallThreshold) {
                 playerStats.TakeDamage(1);
             }
-
             maxFallSpeed = 0f;
+        } else if (collision.gameObject.CompareTag("Enemy")) {
+            playerStats.TakeDamage(1);
         }
     }
 
-    //Collect item and take damage when tag was found
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Goal") && playerStats.itemCount >= playerStats.maxItemCount)
-        {
-            playerStats.CollectItem();
-        }
-        else if (other.gameObject.CompareTag("Enemy"))
-        {
+
+    //Check for collision with goal object. 
+    void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("Trigger entered with: " + other.gameObject.tag);
+        if (other.gameObject.CompareTag("Goal")) {
+            Debug.Log("Player has touched the goal!");
+            playerStats.TouchGoal();
+        } else if (other.gameObject.CompareTag("Enemy")) {
             playerStats.TakeDamage(1);
         }
     }
@@ -68,35 +62,35 @@ public class PlayerController : MonoBehaviour {
         playerStats.CollectItem();
     }
 
-    // Update item counter 
+
+    //Update item counter
     private void UpdateCounterText(int itemCount) {
         if (counterText != null) {
             counterText.text = "Minerals: " + itemCount.ToString() + " / " + playerStats.maxItemCount.ToString();
         }
     }
 
-    //Update health bar
+    //Update life points
     private void UpdateLifePointImages(int currentLifePoints) {
         for (int i = 0; i < lifePointImages.Length; i++) {
             lifePointImages[i].enabled = i < currentLifePoints;
         }
     }
 
-    //Game Over state
+    //Game States
     void GameOver() {
         if (gameOverPanel != null) {
             gameOverPanel.SetActive(true);
         }
     }
 
-    //Game Won state
     void GameWon() {
         if (gameWonPanel != null) {
             gameWonPanel.SetActive(true);
         }
     }
 
-    //Restart Game 
+    //Restart game
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

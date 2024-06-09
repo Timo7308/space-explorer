@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour {
     public GameObject gameOverPanel; 
     public GameObject gameWonPanel; 
     public PlayerController playerController; 
+    public PlayerStats playerStats;
+
     public Menu menu;
 
     public int playerLives = 3; 
@@ -130,8 +132,23 @@ public class GameManager : MonoBehaviour {
     }
 
     public void GameWon() {
-        SetGameState(GameState.GameWon);
+    // Check if the player has collected all four items
+    if (playerStats.itemCount >= playerStats.maxItemCount) {
+        Debug.Log("All items collected.");
+        // Check if the player is touching the goal object
+       
+            SetGameState(GameState.GameWon);
+            // Deactivate the game won panel before returning to the menu
+          
+            ReturnToMenu();
+        }
+       
     }
+   
+
+
+
+
 
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
