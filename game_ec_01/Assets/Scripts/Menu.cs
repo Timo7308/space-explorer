@@ -7,13 +7,31 @@ public class Menu : MonoBehaviour
     // Action for starting the game
     public Action OnStartGame;
 
-    // When the button Start is pressed, invoke the action or load level 1 if no action is set
-    public void StartGame() {
+    // Action for loading a specific level
+    public Action<string> OnLoadLevel;
 
-        if (OnStartGame != null) {
+    // When the button Start is pressed, invoke the action or load level 1 if no action is set
+    public void StartGame()
+    {
+        if (OnStartGame != null)
+        {
             OnStartGame.Invoke();
         }
-        else {
+        else
+        {
+            SceneManager.LoadScene("LevelSelectionMenu");
+        }
+    }
+
+    // Method to be called when a level selection button is clicked
+    public void LoadLevel(string levelName)
+    {
+        if (OnLoadLevel != null)
+        {
+            OnLoadLevel.Invoke(levelName);
+        }
+        else
+        {
             SceneManager.LoadScene("Level1");
         }
     }
