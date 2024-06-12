@@ -12,19 +12,34 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float checkDistance = 0.25f;
 
     private Rigidbody2D body;
+    private SpriteRenderer spriteRenderer;
     private bool isGrounded;
     private bool isTouchingWallLeft;
     private bool isTouchingWallRight;
     private bool jumpRequest;
 
-    private void Awake() {
+    private void Awake()
+    {
         body = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Update() {
+    private void Update()
+    {
         // Horizontal movement
         float horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
+
+        // Flip sprite horizontally if moving left
+        if (horizontalInput < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        // Flip sprite back to original orientation if moving right
+        else if (horizontalInput > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
 
         // Check if player touches the floor
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkDistance, groundLayer);
@@ -35,30 +50,25 @@ public class PlayerMovement : MonoBehaviour
 
         // Jump if spacebar is pressed and the player is on the ground
         // isGrounded to prevent the player from jumping in the air
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
-
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
             jumpRequest = true;
         }
     }
 
-    private void FixedUpdate() {
-
-        if (jumpRequest)  {
+    private void FixedUpdate()
+    {
+        if (jumpRequest)
+        {
             Jump();
             jumpRequest = false;
         }
     }
 
-
-    private void Jump()  {
-
+    private void Jump()
+    {
         //Jump function. isGrounded is set to false to prevent double jumps
         body.velocity = new Vector2(body.velocity.x, jumpForce);
-        isGrounded = false; 
+        isGrounded = false;
     }
-   
 }
-
-/*
-Next steps: Still working on moving enemies that can attack the player
-*/
