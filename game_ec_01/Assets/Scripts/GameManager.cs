@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 
-//Game states
+// Enum for game states
 public enum GameState {
     Playing,
     GameOver,
@@ -12,46 +12,57 @@ public enum GameState {
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
+
     public GameState currentState { get; private set; }
     public DialogueManager dialogueManager; 
     public GameObject gameOverPanel; 
     public GameObject gameWonPanel; 
     public PlayerController playerController; 
     public PlayerStats playerStats;
-
-    public Menu menu;
+    public AudioSource backgroundMusicAudioSource; // Attached AudioSource for background music
 
     public int playerLives = 3; 
     public Image[] livesImages; 
     public Sprite fullHeartSprite; 
     public Sprite emptyHeartSprite; 
-   
 
-    private void Awake() {
-
-        if (Instance != null && Instance != this) {
-            Destroy(gameObject);
-        }
-        else {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); 
+   void Awake() {
+    // Ensure there's an AudioSource component on this GameObject
+    if (backgroundMusicAudioSource == null) {
+        backgroundMusicAudioSource = GetComponent<AudioSource>();
+        if (backgroundMusicAudioSource == null) {
+            backgroundMusicAudioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
+    // Assign the audio clip if it's not assigned yet
+    if (backgroundMusicAudioSource.clip == null) {
+        // Replace "path_to_your_audio_clip" with the actual path to your audio clip
+        AudioClip bgMusicClip = Resources.Load<AudioClip>("path_to_your_audio_clip");
+        if (bgMusicClip != null) {
+            backgroundMusicAudioSource.clip = bgMusicClip;
+        } else {
+            Debug.LogError("Background music audio clip not found or assigned.");
+        }
+    }
+
+    // Ensure this GameManager persists across scenes
+    DontDestroyOnLoad(gameObject);
+
+    // Start playing background music if the game state allows
+    PlayBackgroundMusic();
+}
+
+
     void Start() {
-       //Delay for showing the instructions screen
+        // Delay for showing the instructions screen
         StartCoroutine(DisplayInstructionWithDelay(2f));
 
         // Set initial game state
         SetGameState(GameState.Playing);
-
-        if (menu != null) {
-            menu.OnStartGame = CustomStartGameAction;
-        }
-
     }
 
-    private IEnumerator DisplayInstructionWithDelay(float delay) {
+    IEnumerator DisplayInstructionWithDelay(float delay) {
         yield return new WaitForSeconds(delay);
         
         // Call the DisplayInstruction method of the DialogueManager script
@@ -68,35 +79,34 @@ public class GameManager : MonoBehaviour {
         HandleGameStateChanged(newState);
     }
 
-
-    //When game over or game won disable controls for player
-    //Currently not working 
-    private void HandleGameStateChanged(GameState newState) {
+    void HandleGameStateChanged(GameState newState) {
         if (newState == GameState.GameOver) {
             if (gameOverPanel != null) {
                 gameOverPanel.SetActive(true);
+                StopBackgroundMusic();
                 DisablePlayerControls();
             }
         }
         else if (newState == GameState.GameWon) {
             if (gameWonPanel != null) {
                 gameWonPanel.SetActive(true);
+                StopBackgroundMusic();
                 DisablePlayerControls();
             }
         }
-        //When game state is playing enable controls
         else if (newState == GameState.Playing) {
             EnablePlayerControls();
+            PlayBackgroundMusic();
         }  
     }
 
-    private void DisablePlayerControls() {
+    void DisablePlayerControls() {
         if (playerController != null) {
             playerController.enabled = false;
         }
     }
 
-    private void EnablePlayerControls() {
+    void EnablePlayerControls() {
         if (playerController != null) {
             playerController.enabled = true;
         }
@@ -107,48 +117,30 @@ public class GameManager : MonoBehaviour {
         UpdateLivesUI();
 
         if (playerLives <= 0) {
-           
-            Debug.Log("Game Over!");
+            GameOver();
         }
     }
 
-    // Display full and empty life images. Not working yet
-    private void UpdateLivesUI() {
+    void UpdateLivesUI() {
         for (int i = 0; i < livesImages.Length; i++) {
             if (i < playerLives) {
-                // Display full heart sprite for remaining lives
                 livesImages[i].sprite = fullHeartSprite;
             }
             else  {
-                // Display empty heart sprite for lost lives
                 livesImages[i].sprite = emptyHeartSprite;
             }
         }
     }
 
-    //Game states
     public void GameOver() {
         SetGameState(GameState.GameOver);
     }
 
     public void GameWon() {
-    // Check if the player has collected all four items
-    if (playerStats.itemCount >= playerStats.maxItemCount) {
-        Debug.Log("All items collected.");
-        // Check if the player is touching the goal object
-       
+        if (playerStats.itemCount >= playerStats.maxItemCount) {
             SetGameState(GameState.GameWon);
-            // Deactivate the game won panel before returning to the menu
-          
-            ReturnToMenu();
         }
-       
     }
-   
-
-
-
-
 
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -157,8 +149,26 @@ public class GameManager : MonoBehaviour {
     public void ReturnToMenu() {
         SceneManager.LoadScene("Menu");
     }
-     private void CustomStartGameAction() {
-        Debug.Log("Custom start game action triggered!");
-        SceneManager.LoadScene("Level1");
+
+  void Update() {
+        // Check if either game over or game won panel is active
+        if (gameOverPanel != null && gameOverPanel.activeSelf) {
+            StopBackgroundMusic();
+        }
+        else if (gameWonPanel != null && gameWonPanel.activeSelf) {
+            StopBackgroundMusic();
+        }
+    }
+
+    void PlayBackgroundMusic() {
+        if (backgroundMusicAudioSource != null && !backgroundMusicAudioSource.isPlaying) {
+            backgroundMusicAudioSource.Play();
+        }
+    }
+
+    void StopBackgroundMusic() {
+        if (backgroundMusicAudioSource != null && backgroundMusicAudioSource.isPlaying) {
+            backgroundMusicAudioSource.Stop();
+        }
     }
 }

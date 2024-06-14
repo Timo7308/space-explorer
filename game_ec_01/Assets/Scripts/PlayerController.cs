@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour {
     public GameObject gameWonPanel;
 
     public float fallThreshold = 10f;
+    public AudioClip enemyCollisionSound; // Sound to play when colliding with an enemy
+    private AudioSource audioSource; // Reference to the AudioSource component on the player
+
     private Rigidbody2D rb;
     private float maxFallSpeed;
     private PlayerStats playerStats;
@@ -17,6 +20,12 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         playerStats = new PlayerStats(3, 4);
+
+        // Get the AudioSource component from the player GameObject
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null) {
+            audioSource = gameObject.AddComponent<AudioSource>(); // Add AudioSource if not already present
+        }
 
         playerStats.OnLifeChanged += UpdateLifePointImages;
         playerStats.OnItemCollected += UpdateCounterText;
@@ -33,7 +42,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    //Check for collision with enemy or ground
     void OnCollisionEnter2D(Collision2D collision) {
         Debug.Log("Collision entered with: " + collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Ground")) {
@@ -43,11 +51,10 @@ public class PlayerController : MonoBehaviour {
             maxFallSpeed = 0f;
         } else if (collision.gameObject.CompareTag("Enemy")) {
             playerStats.TakeDamage(1);
+            PlayEnemyCollisionSound();
         }
     }
 
-
-    //Check for collision with goal object. 
     void OnTriggerEnter2D(Collider2D other) {
         Debug.Log("Trigger entered with: " + other.gameObject.tag);
         if (other.gameObject.CompareTag("Goal")) {
@@ -55,6 +62,7 @@ public class PlayerController : MonoBehaviour {
             playerStats.TouchGoal();
         } else if (other.gameObject.CompareTag("Enemy")) {
             playerStats.TakeDamage(1);
+            PlayEnemyCollisionSound();
         }
     }
 
@@ -62,22 +70,18 @@ public class PlayerController : MonoBehaviour {
         playerStats.CollectItem();
     }
 
-
-    //Update item counter
     private void UpdateCounterText(int itemCount) {
         if (counterText != null) {
             counterText.text = "Minerals: " + itemCount.ToString() + " / " + playerStats.maxItemCount.ToString();
         }
     }
 
-    //Update life points
     private void UpdateLifePointImages(int currentLifePoints) {
         for (int i = 0; i < lifePointImages.Length; i++) {
             lifePointImages[i].enabled = i < currentLifePoints;
         }
     }
 
-    //Game States
     void GameOver() {
         if (gameOverPanel != null) {
             gameOverPanel.SetActive(true);
@@ -90,8 +94,15 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    //Restart game
     public void RestartGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+   void PlayEnemyCollisionSound() {
+    if (audioSource != null && enemyCollisionSound != null) {
+        audioSource.volume = 1.0f; // Adjust volume (1.0f is max volume)
+        audioSource.PlayOneShot(enemyCollisionSound);
+    }
+}
+
 }
