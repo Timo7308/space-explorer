@@ -47,6 +47,8 @@ Sounds:
 
 - Background Music: Plays during level1.
 
+- Plane Noise: Plays on the level selection page. 
+
 - Game Won Sound: Plays when the level 1 is completed and the panel opens. 
 
 - Game Over Sound: Plays when all lifepoints are lost and the panel opens. 

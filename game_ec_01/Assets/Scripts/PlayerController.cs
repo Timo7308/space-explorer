@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour {
 
    void PlayEnemyCollisionSound() {
     if (audioSource != null && enemyCollisionSound != null) {
-        audioSource.volume = 1.0f; // Adjust volume (1.0f is max volume)
+        audioSource.volume = 0.5f; // Adjust volume (1.0f is max volume)
         audioSource.PlayOneShot(enemyCollisionSound);
     }
 }
