@@ -8,7 +8,7 @@ public class PlayerShooting : MonoBehaviour
     public float shootingSpeed = 10f; // Speed of the projectile
     public float projectileLifetime = 3f; // Lifetime of the projectile
     public AudioClip shootingSound; // Sound to play when shooting
-    public float shootingVolume = 0.5f; // Volume of the shooting sound
+    public float shootingVolume = 0.1f; // Volume of the shooting sound
 
     private bool canShoot = false; // Flag to indicate if the player can shoot
     private AudioSource audioSource; // Reference to AudioSource component
