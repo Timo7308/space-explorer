@@ -37,47 +37,50 @@ public class PlayerShooting : MonoBehaviour
         canShoot = true;
     }
 
-    void Shoot()
+   void Shoot()
+{
+    // Play shooting sound
+    if (audioSource != null && shootingSound != null)
     {
-        // Play shooting sound
-        if (audioSource != null && shootingSound != null)
-        {
-            audioSource.PlayOneShot(shootingSound);
-        }
-
-        // Determine the shooting direction based on player's sprite orientation
-        Transform currentShootingPoint;
-
-        // Get the SpriteRenderer component of the player GameObject
-        SpriteRenderer playerSpriteRenderer = GetComponent<SpriteRenderer>();
-
-        if (playerSpriteRenderer.flipX)
-        {
-            // Player is facing left, use the left shooting point
-            currentShootingPoint = shootingPointLeft;
-        }
-        else
-        {
-            // Default to right shooting point
-            currentShootingPoint = shootingPointRight;
-        }
-
-        // Instantiate the projectile at the shooting point's position and rotation
-        GameObject projectile = Instantiate(projectilePrefab, currentShootingPoint.position, currentShootingPoint.rotation);
-
-        // Set the projectile as active to make it visible
-        projectile.SetActive(true);
-
-        // Get the Rigidbody2D component of the projectile
-        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-
-        // Calculate the shooting direction
-        Vector2 shootingDirection = (playerSpriteRenderer.flipX) ? -currentShootingPoint.right : currentShootingPoint.right;
-
-        // Apply a force to the projectile in the shooting direction
-        rb.AddForce(shootingDirection * shootingSpeed, ForceMode2D.Impulse); // Apply impulse force
-
-        // Destroy the projectile after a specified lifetime
-        Destroy(projectile, projectileLifetime);
+        // Explicitly set the volume before playing the sound
+        audioSource.volume = shootingVolume;
+        audioSource.PlayOneShot(shootingSound);
     }
+
+    // Determine the shooting direction based on player's sprite orientation
+    Transform currentShootingPoint;
+
+    // Get the SpriteRenderer component of the player GameObject
+    SpriteRenderer playerSpriteRenderer = GetComponent<SpriteRenderer>();
+
+    if (playerSpriteRenderer.flipX)
+    {
+        // Player is facing left, use the left shooting point
+        currentShootingPoint = shootingPointLeft;
+    }
+    else
+    {
+        // Default to right shooting point
+        currentShootingPoint = shootingPointRight;
+    }
+
+    // Instantiate the projectile at the shooting point's position and rotation
+    GameObject projectile = Instantiate(projectilePrefab, currentShootingPoint.position, currentShootingPoint.rotation);
+
+    // Set the projectile as active to make it visible
+    projectile.SetActive(true);
+
+    // Get the Rigidbody2D component of the projectile
+    Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+
+    // Calculate the shooting direction
+    Vector2 shootingDirection = (playerSpriteRenderer.flipX) ? -currentShootingPoint.right : currentShootingPoint.right;
+
+    // Apply a force to the projectile in the shooting direction
+    rb.AddForce(shootingDirection * shootingSpeed, ForceMode2D.Impulse); // Apply impulse force
+
+    // Destroy the projectile after a specified lifetime
+    Destroy(projectile, projectileLifetime);
+}
+
 }

@@ -6732,7 +6732,7 @@ MonoBehaviour:
   shootingSpeed: 10
   projectileLifetime: 1
   shootingSound: {fileID: 8300000, guid: 90269debb3af0487f95e5b89032a659b, type: 3}
-  shootingVolume: 0.05
+  shootingVolume: 0.1
 --- !u!95 &1806600400
 Animator:
   serializedVersion: 5
