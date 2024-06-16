@@ -25,9 +25,9 @@ Monster:
 
 Enemy (Spike Head):
 
-- Blink Animation: The eyes of the spike heads constantly blink.
+- Spike Animation: The eyes of the spike heads constantly blink.
 
-//CAn be found in Assets/Enemy_Animation
+//Can be found in Assets/Enemy_Animation
 
 
 
@@ -43,7 +43,9 @@ Menu:
 
 Sounds: 
 
-- Background Music
+- Background Music: Plays on the main menu page.
+
+- Background Music: Plays during level1.
 
 - Game Won Sound: Plays when the level 1 is completed and the panel opens. 
 
@@ -58,3 +60,5 @@ Sounds:
 - Player Shooting Sound: Plays when the player shoots with the key S. 
 
 //Can be found in Assets/Sound
+
+//Sounds and music all come from www.pixabay.com 
