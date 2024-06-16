@@ -1,0 +1,53 @@
+Animations
+
+
+
+Player:
+
+- Idle Animation: Visible when the player is not moving.
+
+- Moving Animation: Visible when the player moves. 
+
+- Jumping Animation: Visible when the player jumps. 
+
+//Can be found in Assets/Player_Animation 
+
+
+
+Enemy(Monster): 
+
+- Idle Animation: Tiny movement when the green monsters stop moving. 
+
+- Moving Animation: Plays when the monsters move from right to left. 
+
+//Can be found in Assets/Enemy_Animation
+
+
+
+Menu: 
+
+- Text Animation: The game title on the menu page gets bigger and then smaller again. 
+
+- Button Animation: When hovering over the button or clicking the button the color slightly changes. 
+
+//Can be found in Assets/Menu_Animation
+
+
+
+Sounds: 
+
+- Background Music
+
+- Game Won Sound: Plays when the level 1 is completed and the panel opens. 
+
+- Game Over Sound: Plays when all lifepoints are lost and the panel opens. 
+
+- Item Collection Sound: Plays when the player touches an item. 
+
+- Weapon Collection Sound: Plays when the player touches the weapon. 
+
+- Enemy Collision Sound: Plays when the player comes to close to enemies or falls too fast. 
+
+- Player Shooting Sound: Plays when the player shoots with the key S. 
+
+//Can be found in Assets/Sound

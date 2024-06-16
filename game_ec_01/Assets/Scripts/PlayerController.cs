@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.CompareTag("Ground")) {
             if (maxFallSpeed <= -fallThreshold) {
                 playerStats.TakeDamage(1);
+                PlayEnemyCollisionSound();
             }
             maxFallSpeed = 0f;
         } else if (collision.gameObject.CompareTag("Enemy")) {

@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7507cc9758b364d89ab4a20b923215f2, type: 3}
   m_Name: DialogueInstruction
   m_EditorClassIdentifier: 
-  instructionText: 'Welcome to Level 1
+  instructionText: 'Welcome to Planet CXJ7
 
 
-    Collect all the minerals and find the
-    green portal to
-
-    finish the level. '
+    Collect all the minerals and find
+    the green portal to finish the level. Find the gun to fight aliens.'
