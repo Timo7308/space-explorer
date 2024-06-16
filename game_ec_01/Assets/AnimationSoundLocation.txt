@@ -14,13 +14,20 @@ Player:
 
 
 
-Enemy(Monster): 
+Monster: 
 
 - Idle Animation: Tiny movement when the green monsters stop moving. 
 
 - Moving Animation: Plays when the monsters move from right to left. 
 
 //Can be found in Assets/Enemy_Animation
+
+
+Enemy (Spike Head):
+
+- Blink Animation: The eyes of the spike heads constantly blink.
+
+//CAn be found in Assets/Enemy_Animation
 
 
 
