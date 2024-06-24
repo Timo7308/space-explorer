@@ -20,14 +20,12 @@ public class PlayerMovement : MonoBehaviour
     private bool isTouchingWallRight;
     private bool jumpRequest;
 
-    private void Awake()
-    {
+    private void Awake() {
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
-    {
+    private void Update() {
         // Horizontal movement
         float horizontalInput = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(horizontalInput * speed, body.velocity.y);
@@ -35,13 +33,11 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
 
         // Flip sprite horizontally if moving left
-        if (horizontalInput < 0)
-        {
+        if (horizontalInput < 0) {
             spriteRenderer.flipX = true;
         }
         // Flip sprite back to original orientation if moving right
-        else if (horizontalInput > 0)
-        {
+        else if (horizontalInput > 0) {
             spriteRenderer.flipX = false;
         }
 
@@ -63,17 +59,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (jumpRequest)
-        {
+    private void FixedUpdate() {
+        if (jumpRequest) {
             Jump();
             jumpRequest = false;
         }
     }
 
-    private void Jump()
-    {
+    private void Jump() {
         // Jump function
         body.velocity = new Vector2(body.velocity.x, jumpForce);
         isGrounded = false;

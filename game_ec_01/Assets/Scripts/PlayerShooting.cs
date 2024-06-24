@@ -24,24 +24,19 @@ public class PlayerShooting : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (canShoot && Input.GetKeyDown(KeyCode.S))
-        {
+    void Update() {
+        if (canShoot && Input.GetKeyDown(KeyCode.S)) {
             Shoot();
         }
     }
 
-    public void EnableShooting()
-    {
+    public void EnableShooting() {
         canShoot = true;
     }
 
-   void Shoot()
-{
+   void Shoot() {
     // Play shooting sound
-    if (audioSource != null && shootingSound != null)
-    {
+    if (audioSource != null && shootingSound != null) {
         // Explicitly set the volume before playing the sound
         audioSource.volume = shootingVolume;
         audioSource.PlayOneShot(shootingSound);
@@ -53,13 +48,11 @@ public class PlayerShooting : MonoBehaviour
     // Get the SpriteRenderer component of the player GameObject
     SpriteRenderer playerSpriteRenderer = GetComponent<SpriteRenderer>();
 
-    if (playerSpriteRenderer.flipX)
-    {
+    if (playerSpriteRenderer.flipX) {
         // Player is facing left, use the left shooting point
         currentShootingPoint = shootingPointLeft;
     }
-    else
-    {
+    else {
         // Default to right shooting point
         currentShootingPoint = shootingPointRight;
     }

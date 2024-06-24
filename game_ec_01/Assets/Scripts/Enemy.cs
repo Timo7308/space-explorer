@@ -11,7 +11,3 @@ public class Enemy : MonoBehaviour
         }
     }
 }
-
-// Has to be extended for moving enemies that attack the player.
-// Couldnt get it to work till now. 
-// Right now only the spike heads in the game represent static enemies. 

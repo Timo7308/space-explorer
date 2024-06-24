@@ -1,0 +1,24 @@
+Dynamic and non deterministic gameplay: 
+
+- The enemies (monsters) follow the player along the x - axis when the player comes to close. If the player
+  touches the monster he loses one lifepoint. When the monster detects the player it increases its speed
+  to make it harder to escape. 
+  I tried everything to also let the monsters follow the player along the y-axis but it never worked how it should. 
+  The monsters were either hoovering or moving through ground. 
+
+- EnemyAi.cs Script in: Assets/Scripts 
+
+
+Element of randomness: 
+
+- For each play session the collectibles (minerals) spawn at a different location in the game. 
+
+- ItemSpawner.cs Script in: Assets/Scripts
+
+
+Element to increase difficulty: 
+
+- A level has a time limit of 60 seconds now. When the time is over the Game Over panel opens and the level has to be 
+  restarted. 
+
+- GameManager.cs Script in: Assets/Scripts 

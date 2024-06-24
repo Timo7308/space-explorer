@@ -43,13 +43,14 @@ public class PlayerStats {
 
         if (itemCount >= maxItemCount && hasTouchedGoal) {
             OnGameWon?.Invoke();
+            GameManager.Instance.SetGameState(GameState.GameWon);
         }
     }
 
     //Check if goal was touched. 
     public void TouchGoal() {
         hasTouchedGoal = true;
-        Debug.Log("Goal touched. Items collected: " + itemCount + "/" + maxItemCount);
+      //  Debug.Log("Goal touched. Items collected: " + itemCount + "/" + maxItemCount);
 
         if (itemCount >= maxItemCount) {
             OnGameWon?.Invoke();

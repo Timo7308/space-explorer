@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        Debug.Log("Collision entered with: " + collision.gameObject.tag);
+      //  Debug.Log("Collision entered with: " + collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Ground")) {
             if (maxFallSpeed <= -fallThreshold) {
                 playerStats.TakeDamage(1);
@@ -57,9 +57,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Trigger entered with: " + other.gameObject.tag);
+      //  Debug.Log("Trigger entered with: " + other.gameObject.tag);
         if (other.gameObject.CompareTag("Goal")) {
-            Debug.Log("Player has touched the goal!");
+          //  Debug.Log("Player has touched the goal!");
             playerStats.TouchGoal();
         } else if (other.gameObject.CompareTag("Enemy")) {
             playerStats.TakeDamage(1);

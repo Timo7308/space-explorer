@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 // Enum for game states
 public enum GameState {
@@ -15,98 +16,147 @@ public class GameManager : MonoBehaviour {
 
     public GameState currentState { get; private set; }
     public DialogueManager dialogueManager; 
+    public StoryManager storyManager;
     public GameObject gameOverPanel; 
     public GameObject gameWonPanel; 
     public PlayerController playerController; 
     public PlayerStats playerStats;
-    public AudioSource backgroundMusicAudioSource; // Attached AudioSource for background music
+    public AudioSource backgroundMusicAudioSource; 
 
     public int playerLives = 3; 
     public Image[] livesImages; 
     public Sprite fullHeartSprite; 
-    public Sprite emptyHeartSprite; 
+    public Sprite emptyHeartSprite;
 
-   void Awake() {
-    // Ensure there's an AudioSource component on this GameObject
-    if (backgroundMusicAudioSource == null) {
-        backgroundMusicAudioSource = GetComponent<AudioSource>();
+    // Timer variables
+    public float totalTimerDuration = 60f; 
+    private float currentTimer;
+    private bool timerRunning = true; // Flag to control the timer
+
+    // UI Text to display timer
+    public TMP_Text timerText;
+
+    void Awake() {
+        // Initialize current timer
+        currentTimer = totalTimerDuration;
+
+        // Initialize background music
         if (backgroundMusicAudioSource == null) {
-            backgroundMusicAudioSource = gameObject.AddComponent<AudioSource>();
+            backgroundMusicAudioSource = GetComponent<AudioSource>();
+            if (backgroundMusicAudioSource == null) {
+                backgroundMusicAudioSource = gameObject.AddComponent<AudioSource>();
+            }
         }
-    }
 
-    // Assign the audio clip if it's not assigned yet
-    if (backgroundMusicAudioSource.clip == null) {
-        // Replace "path_to_your_audio_clip" with the actual path to your audio clip
-        AudioClip bgMusicClip = Resources.Load<AudioClip>("path_to_your_audio_clip");
-        if (bgMusicClip != null) {
-            backgroundMusicAudioSource.clip = bgMusicClip;
-        } else {
-            Debug.LogError("Background music audio clip not found or assigned.");
+        if (backgroundMusicAudioSource.clip == null) {
+            AudioClip bgMusicClip = Resources.Load<AudioClip>("path_to_your_audio_clip");
+            if (bgMusicClip != null) {
+                backgroundMusicAudioSource.clip = bgMusicClip;
+            } 
         }
+
+        DontDestroyOnLoad(gameObject);
+        PlayBackgroundMusic();
     }
-
-    // Ensure this GameManager persists across scenes
-    DontDestroyOnLoad(gameObject);
-
-    // Start playing background music if the game state allows
-    PlayBackgroundMusic();
-}
-
 
     void Start() {
-        // Delay for showing the instructions screen
         StartCoroutine(DisplayInstructionWithDelay(2f));
-
-        // Set initial game state
         SetGameState(GameState.Playing);
+
+        // Initialize timer text if it's not set in the Inspector
+        if (timerText == null) {
+            Debug.LogError("Timer Text object reference is not set!");
+        } 
+        else {
+            UpdateTimerText();
+        }
     }
 
     IEnumerator DisplayInstructionWithDelay(float delay) {
         yield return new WaitForSeconds(delay);
-        
-        // Call the DisplayInstruction method of the DialogueManager script
+
+        if (storyManager != null) {
+            storyManager.DisplayInstruction();
+        }
+
         if (dialogueManager != null) {
             dialogueManager.DisplayInstruction();
         }
-        else {
-            Debug.LogWarning("DialogueManager reference not assigned.");
+    }
+
+    IEnumerator DisplayResultInstructionWithDelay(float delay) {
+        yield return new WaitForSeconds(delay);
+
+        if (storyManager != null) {
+            storyManager.DisplayResultInstruction();
+        }
+    }
+
+    void Update() {
+        if (currentState == GameState.Playing && timerRunning) {
+            currentTimer -= Time.deltaTime;
+            if (currentTimer <= 0f) {
+                GameOver();
+            }
+            UpdateTimerText(); // Update timer display each frame
+        }
+
+        // Check if either game over or game won panel is active
+        if (gameOverPanel != null && gameOverPanel.activeSelf) {
+            StopBackgroundMusic();
+        } 
+        else if (gameWonPanel != null && gameWonPanel.activeSelf) {
+            StopBackgroundMusic();
+            StopTimer();
+            StartCoroutine(DisplayResultInstructionWithDelay(5f));
         }
     }
 
     public void SetGameState(GameState newState) {
         currentState = newState;
         HandleGameStateChanged(newState);
+        Debug.Log("Game State Changed to: " + newState); // Debug log to track state changes
     }
 
-    void HandleGameStateChanged(GameState newState) {
+    public void HandleGameStateChanged(GameState newState) {
         if (newState == GameState.GameOver) {
             if (gameOverPanel != null) {
                 gameOverPanel.SetActive(true);
                 StopBackgroundMusic();
                 DisablePlayerControls();
+                StopTimer();
             }
-        }
+        } 
         else if (newState == GameState.GameWon) {
             if (gameWonPanel != null) {
                 gameWonPanel.SetActive(true);
                 StopBackgroundMusic();
                 DisablePlayerControls();
+                StopTimer();
             }
-        }
+        } 
         else if (newState == GameState.Playing) {
             EnablePlayerControls();
             PlayBackgroundMusic();
-        }  
+            StartTimer();
+        }
     }
 
-    void DisablePlayerControls() {
+    public void StopTimer() {
+        timerRunning = false;
+    }
+
+    public void StartTimer() {
+        timerRunning = true;
+    }
+
+    public void DisablePlayerControls() {
         if (playerController != null) {
             playerController.enabled = false;
         }
     }
 
-    void EnablePlayerControls() {
+    public void EnablePlayerControls() {
         if (playerController != null) {
             playerController.enabled = true;
         }
@@ -121,12 +171,12 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void UpdateLivesUI() {
+    public void UpdateLivesUI() {
         for (int i = 0; i < livesImages.Length; i++) {
             if (i < playerLives) {
                 livesImages[i].sprite = fullHeartSprite;
-            }
-            else  {
+            } 
+            else {
                 livesImages[i].sprite = emptyHeartSprite;
             }
         }
@@ -150,25 +200,28 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene("Menu");
     }
 
-  void Update() {
-        // Check if either game over or game won panel is active
-        if (gameOverPanel != null && gameOverPanel.activeSelf) {
-            StopBackgroundMusic();
-        }
-        else if (gameWonPanel != null && gameWonPanel.activeSelf) {
-            StopBackgroundMusic();
-        }
-    }
-
-    void PlayBackgroundMusic() {
+    public void PlayBackgroundMusic() {
         if (backgroundMusicAudioSource != null && !backgroundMusicAudioSource.isPlaying) {
             backgroundMusicAudioSource.Play();
         }
     }
 
-    void StopBackgroundMusic() {
+    public void StopBackgroundMusic() {
         if (backgroundMusicAudioSource != null && backgroundMusicAudioSource.isPlaying) {
             backgroundMusicAudioSource.Stop();
+        }
+    }
+
+    public string GetFormattedTimeRemaining() {
+        int minutes = Mathf.FloorToInt(currentTimer / 60);
+        int seconds = Mathf.FloorToInt(currentTimer % 60);
+        return string.Format("{0}:{1:00}", minutes, seconds);
+    }
+
+    // Update timer text UI element
+    private void UpdateTimerText() {
+        if (timerText != null) {
+            timerText.text = "Time: " + GetFormattedTimeRemaining();
         }
     }
 }

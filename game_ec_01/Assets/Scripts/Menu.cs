@@ -21,57 +21,71 @@ public class Menu : MonoBehaviour
     // Reference to the panel to open
     public GameObject panelToOpen;
 
-    // Flag to keep track of whether the game is paused
     private bool isPaused = false;
 
-    void Start()
-    {
+    void Start() {
         // Assign the button click listeners
-        if (quitButton != null)
-        {
+        if (quitButton != null) {
+
             quitButton.onClick.AddListener(QuitToLevelSelection);
         }
-        if (continueButton != null)
-        {
+        if (continueButton != null) {
+
             continueButton.onClick.AddListener(ResumeGame);
         }
     }
 
     // When the button Start is pressed, invoke the action or load level selection menu if no action is set
-    public void StartGame()
-    {
-        if (OnStartGame != null)
-        {
+    public void StartGame() {
+        if (OnStartGame != null) {
             OnStartGame.Invoke();
         }
-        else
-        {
+        else {
             SceneManager.LoadScene("LevelSelectionMenu");
         }
     }
 
     // Method to be called when a level selection button is clicked
-    public void LoadLevel()
-    {
+    public void LoadLevel() {
         string levelName = "Level1"; // Specify the level name here
         Debug.Log("LoadLevel called with levelName: " + levelName); // Add debug log
 
-        if (!string.IsNullOrEmpty(levelName))
-        {
-            if (OnLoadLevel != null)
-            {
+        if (!string.IsNullOrEmpty(levelName)) {
+            if (OnLoadLevel != null) {
                 OnLoadLevel.Invoke(levelName);
             }
-            else
-            {
+            else {
                 SceneManager.LoadScene(levelName);
             }
         }
-        else
-        {
+        else {
             Debug.LogError("Cannot load scene: Invalid scene name (empty string)");
         }
     }
+    public void LoadLevel3() {
+        string levelName = "Level3"; // Specify the level name here
+        Debug.Log("LoadLevel called with levelName: " + levelName); // Add debug log
+
+        if (!string.IsNullOrEmpty(levelName)) {
+            if (OnLoadLevel != null) {
+                OnLoadLevel.Invoke(levelName);
+            }
+            else {
+                SceneManager.LoadScene(levelName);
+            }
+        }
+        else {
+            Debug.LogError("Cannot load scene: Invalid scene name (empty string)");
+        }
+    }
+
+
+
+
+
+
+
+
 
     // Method to handle the pause button click
     public void PauseGame()
