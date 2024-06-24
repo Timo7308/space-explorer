@@ -16,6 +16,7 @@ public class ItemSpawner : MonoBehaviour
         SpawnItems();
     }
 
+    //Spawn items with maximum 100 iterations for finding a valid position. 
     void SpawnItems() {
 
         int itemsSpawned = 0;
@@ -52,6 +53,7 @@ public class ItemSpawner : MonoBehaviour
         }
     }
 
+    //Get random position 
     Vector3 GetRandomPositionWithinBounds() {
         float x = Random.Range(spawnAreaMin.x, spawnAreaMax.x);
         float y = Random.Range(spawnAreaMin.y, spawnAreaMax.y);
@@ -60,6 +62,7 @@ public class ItemSpawner : MonoBehaviour
         return spawnPosition;
     }
 
+    //Method to get valid item position. Otherwise adjust position 
     bool TryGetGroundPosition(Vector3 position, out Vector3 adjustedPosition) {
         RaycastHit2D hit = Physics2D.Raycast(position, Vector2.down, raycastDistance, groundLayer);
         Debug.DrawRay(position, Vector2.down * raycastDistance, Color.red, 1f);
@@ -75,6 +78,7 @@ public class ItemSpawner : MonoBehaviour
         return false;
     }
 
+    //Check for valid position outside of the ground and inside the spawning area 
     bool IsValidPosition(Vector3 position) {
         if (position.x < spawnAreaMin.x || position.x > spawnAreaMax.x ||
             position.y < spawnAreaMin.y || position.y > spawnAreaMax.y) {
@@ -94,6 +98,7 @@ public class ItemSpawner : MonoBehaviour
         return true;
     }
 
+    //Visualize spawning area 
     void OnDrawGizmosSelected() {
         Gizmos.color = Color.blue;
         Vector3 center = new Vector3((spawnAreaMin.x + spawnAreaMax.x) / 2, (spawnAreaMin.y + spawnAreaMax.y) / 2, 0);

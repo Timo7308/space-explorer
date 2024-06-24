@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7507cc9758b364d89ab4a20b923215f2, type: 3}
   m_Name: DialogueInstruction
   m_EditorClassIdentifier: 
-  instructionText: 'Welcome to Planet CXJ7
+  instructionText: 'Welcome to the Planet
 
 
     Collect all the minerals and find

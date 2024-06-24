@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour {
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
-        playerStats = new PlayerStats(3, 4);
+        playerStats = new PlayerStats(3, 6);
 
         // Get the AudioSource component from the player GameObject
         audioSource = GetComponent<AudioSource>();

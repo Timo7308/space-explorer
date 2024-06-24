@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
-{
+public class EnemyAI : MonoBehaviour {
     public float speed = 2f;
     public float chaseSpeed = 4f; 
     public Transform leftBoundary; 
@@ -16,15 +15,17 @@ public class EnemyAI : MonoBehaviour
     private Rigidbody2D rb;
     private bool isChasingPlayer = false;
 
-    void Start()
-    {
+    void Start() {
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         animator.SetBool("isMoving", false); 
     }
 
-    void FixedUpdate()
-    {
+    //Constantly check for player
+    //If player was found chase him, otherwise walk from left to right
+    void FixedUpdate() {
+
         CheckForPlayer();
 
         if (isChasingPlayer) {
@@ -35,6 +36,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    //Method for movement from left to right 
     void Patrol() {
         animator.SetBool("isMoving", true);
 
@@ -54,6 +56,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    //Use raycasting to check if the player is close
     void CheckForPlayer() {
         if (player == null) {
             Debug.LogError("Player not assigned in EnemyAI script.");
@@ -85,6 +88,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    //Handle when player is being chased 
     void ChasePlayer() {
         animator.SetBool("isMoving", true);
 
@@ -111,6 +115,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    //Flip sprite when changing direction 
     void Flip() {
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;

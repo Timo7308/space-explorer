@@ -2215,7 +2215,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Minerals: 0 / 4'
+  m_text: 'Minerals: 0 / 6'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6282,7 +6282,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 7255343295784630621, guid: 176eeb36b0e784376b038c85431594ef, type: 3}
   spawnAreaMin: {x: -8, y: 20}
   spawnAreaMax: {x: 26, y: 40}
-  maxItems: 4
+  maxItems: 6
   raycastDistance: 50
   groundLayer:
     serializedVersion: 2

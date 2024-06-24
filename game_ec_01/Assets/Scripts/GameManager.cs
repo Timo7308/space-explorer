@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    //Display instruction panel at the beginning of level with delay 
     IEnumerator DisplayInstructionWithDelay(float delay) {
         yield return new WaitForSeconds(delay);
 
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    //Display result on Game Won panel with delay 
     IEnumerator DisplayResultInstructionWithDelay(float delay) {
         yield return new WaitForSeconds(delay);
 
@@ -92,6 +94,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    //Manage conditions for opening GameWon or Game Over panel 
     void Update() {
         if (currentState == GameState.Playing && timerRunning) {
             currentTimer -= Time.deltaTime;
@@ -112,10 +115,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    //Handle game states 
     public void SetGameState(GameState newState) {
         currentState = newState;
         HandleGameStateChanged(newState);
-        Debug.Log("Game State Changed to: " + newState); // Debug log to track state changes
+        Debug.Log("Game State Changed to: " + newState); 
     }
 
     public void HandleGameStateChanged(GameState newState) {
