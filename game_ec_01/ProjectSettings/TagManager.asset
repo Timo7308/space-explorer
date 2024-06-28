@@ -9,6 +9,7 @@ TagManager:
   - Goal
   - Enemy
   - Weapon
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

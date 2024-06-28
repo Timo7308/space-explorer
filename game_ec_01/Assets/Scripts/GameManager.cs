@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour {
     public PlayerStats playerStats;
     public AudioSource backgroundMusicAudioSource; 
 
+  
+
     public int playerLives = 3; 
     public Image[] livesImages; 
     public Sprite fullHeartSprite; 
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour {
                 backgroundMusicAudioSource = gameObject.AddComponent<AudioSource>();
             }
         }
-
+         
         if (backgroundMusicAudioSource.clip == null) {
             AudioClip bgMusicClip = Resources.Load<AudioClip>("path_to_your_audio_clip");
             if (bgMusicClip != null) {
@@ -79,10 +81,10 @@ public class GameManager : MonoBehaviour {
         if (storyManager != null) {
             storyManager.DisplayInstruction();
         }
-
-        if (dialogueManager != null) {
+         if (dialogueManager != null) {
             dialogueManager.DisplayInstruction();
         }
+
     }
 
     //Display result on Game Won panel with delay 
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour {
 
         if (storyManager != null) {
             storyManager.DisplayResultInstruction();
+           
         }
     }
 

@@ -71,9 +71,22 @@ public class PlayerMovement : MonoBehaviour
         body.velocity = new Vector2(body.velocity.x, jumpForce);
         isGrounded = false;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if the player lands on the moving platform
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(collision.transform);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // Reset parent when the player leaves the moving platform
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(null);
+        }
+    }
 }
-
-
-
-
-

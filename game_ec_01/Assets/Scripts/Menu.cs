@@ -21,17 +21,21 @@ public class Menu : MonoBehaviour
     // Reference to the panel to open
     public GameObject panelToOpen;
 
+    // Reference to the quit game button
+    public Button quitGameButton;
+
     private bool isPaused = false;
 
     void Start() {
         // Assign the button click listeners
         if (quitButton != null) {
-
             quitButton.onClick.AddListener(QuitToLevelSelection);
         }
         if (continueButton != null) {
-
             continueButton.onClick.AddListener(ResumeGame);
+        }
+        if (quitGameButton != null) {
+            quitGameButton.onClick.AddListener(QuitGame);
         }
     }
 
@@ -62,6 +66,7 @@ public class Menu : MonoBehaviour
             Debug.LogError("Cannot load scene: Invalid scene name (empty string)");
         }
     }
+
     public void LoadLevel3() {
         string levelName = "Level3"; // Specify the level name here
         Debug.Log("LoadLevel called with levelName: " + levelName); // Add debug log
@@ -79,62 +84,55 @@ public class Menu : MonoBehaviour
         }
     }
 
-
-
-
-
-
-
-
-
     // Method to handle the pause button click
-    public void PauseGame()
-    {
-        if (isPaused)
-        {
+    public void PauseGame() {
+        if (isPaused) {
             ResumeGame();
         }
-        else
-        {
+        else {
             ShowPausePanel();
         }
     }
 
     // Show the pause panel and pause the game
-    private void ShowPausePanel()
-    {
+    private void ShowPausePanel() {
         pausePanel.SetActive(true);
         Time.timeScale = 0f; // Pause the game
         isPaused = true;
     }
 
     // Hide the pause panel and resume the game
-    public void ResumeGame()
-    {
+    public void ResumeGame() {
         pausePanel.SetActive(false);
         Time.timeScale = 1f; // Resume the game
         isPaused = false;
     }
 
     // Quit to the level selection menu
-    public void QuitToLevelSelection()
-    {
+    public void QuitToLevelSelection() {
         Time.timeScale = 1f; // Ensure time scale is reset to normal
         SceneManager.LoadScene("LevelSelectionMenu");
     }
 
     // Method to go back to the main menu from level selection
-    public void BackToMainMenu()
-    {
+    public void BackToMainMenu() {
         SceneManager.LoadScene("Menu");
     }
 
     // Method to open the specified panel
-    public void OpenPanel()
-    {
-        if (panelToOpen != null)
-        {
+    public void OpenPanel() {
+        if (panelToOpen != null) {
             panelToOpen.SetActive(true);
         }
+    }
+
+    // Method to quit the game
+    public void QuitGame() {
+        Debug.Log("Quit Game button clicked"); // Add debug log
+
+       // UnityEditor.EditorApplication.isPlaying = false;
+
+        Application.Quit();
+
     }
 }
