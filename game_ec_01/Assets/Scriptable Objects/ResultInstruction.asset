@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88245f75974df4e0da1f8b610bdff03d, type: 3}
   m_Name: ResultInstruction
   m_EditorClassIdentifier: 
-  resultText: "Level of oxygen: 85 %\n\nToxic material: None \n\nDangerous species:
-    No\n\nChances for human life: > 90 %\n\nCongratiulations! You found a planet
-    that is suitable for human life. "
+  resultText: "Oxygen content: 25 %\n\nToxic material: None \n\nDangerous species
+    detected: No\n\nChances for human life: > 90 %\n\nCongratiulations! You found
+    a planet that is suitable for human life. "

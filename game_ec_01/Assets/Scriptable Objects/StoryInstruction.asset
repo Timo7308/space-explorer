@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779d247af07a64aa6a5982207d4dd4ee, type: 3}
   m_Name: StoryInstruction
   m_EditorClassIdentifier: 
-  instructionText: 'Welcome researcher Dave!
+  instructionText: 'Welcome, Researcher!
 
 
-    Life on earth became impossible
-    due to several catastrophic events. You are one of the last researchers from
-    earth that got chosen to find a new planet for humanity.
+    Earth has become uninhabitable due
+    to a series of catastrophic events. As one of the last chosen researchers, your
+    mission is to find a new home for humanity.
 
 
+    Travel to different planets
+    and collect valuable minerals. At the end of each level, the computer will analyze
+    the data to determine if the planet can support life.
 
-    You will collect
-    minerals from different planets. At the end of each level the computer calculates
-    if life on that planet is possible. Pick a planet and start your journey!'
+
+    Choose a planet and
+    begin your journey. The future of humanity is in your hands!!'

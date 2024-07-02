@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
+public class PlayerMovement : MonoBehaviour {
     public Animator animator;
 
     [SerializeField] private float speed = 5f;
@@ -72,8 +71,8 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = false;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
+    private void OnCollisionEnter2D(Collision2D collision) {
+
         // Check if the player lands on the moving platform
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
@@ -81,8 +80,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
+    private void OnCollisionExit2D(Collision2D collision) {
         // Reset parent when the player leaves the moving platform
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {

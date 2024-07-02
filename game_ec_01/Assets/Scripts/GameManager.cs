@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start() {
-        StartCoroutine(DisplayInstructionWithDelay(2f));
+        StartCoroutine(DisplayInstructionWithDelay(1.5f));
         SetGameState(GameState.Playing);
 
         // Initialize timer text if it's not set in the Inspector
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour {
         else if (gameWonPanel != null && gameWonPanel.activeSelf) {
             StopBackgroundMusic();
             StopTimer();
-            StartCoroutine(DisplayResultInstructionWithDelay(5f));
+            StartCoroutine(DisplayResultInstructionWithDelay(1f));
         }
     }
 
