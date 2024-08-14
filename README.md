@@ -2,7 +2,7 @@
 
 **Overview**
 
-Space Explorer is a 2D Jump and Run game that plays in space. Life on earth became impossible due to several catastrophic
+Space Explorer is a 2D jump and run game that plays in space. Life on earth became impossible due to several catastrophic
 events. Researcher Dave is one of the last humans on earth and was chosen for a mission to save humanity. He will explore 
 the universe to find a new planet that is suitable for human life. Inside the space ship the computer shows available planets.
 On each planet the player has to collect 6 minerals and fight possible aliens. At the end of each level the computer analyzes 
@@ -20,7 +20,7 @@ planet.
 
 **How to play**
 
-The game provides a menu for instructions at the start page. Its very simple. The arrow keys are used to move forward or
+The game provides a menu for instructions at the start page. The arrow keys are used to move forward or
 backward, spacebar is used for jumping and the S key is used for shooting. 
 #
 
