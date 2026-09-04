@@ -1,29 +1,87 @@
-# Space Explorer
+# 🚀 Space Explorer
 
-**Overview**
+**Space Explorer** is a 2D jump-and-run game set in space.
 
-Space Explorer is a 2D jump and run game that plays in space. Life on earth became impossible due to several catastrophic
-events. Researcher Dave is one of the last humans on earth and was chosen for a mission to save humanity. He will explore 
-the universe to find a new planet that is suitable for human life. Inside the space ship the computer shows available planets.
-On each planet the player has to collect 6 minerals and fight possible aliens. At the end of each level the computer analyzes 
-the collected minerals and determines if life on the planet is possible or not. The game is won if the player finds a suitable
-planet. 
-#
+After catastrophic events have made Earth uninhabitable, researcher **Dave** is sent on a mission to find a new planet suitable for human life.
 
-**Features**
+The player explores different planets, collects minerals, fights hostile aliens, and returns to the spaceship to analyze the gathered resources.
 
-- Explore different planets
-- Fight aliens
-- Collect minerals
-- Safe humanity
-#
+---
 
-**How to play**
+## 🎮 Gameplay
 
-The game provides a menu for instructions at the start page. The arrow keys are used to move forward or
-backward, spacebar is used for jumping and the S key is used for shooting. 
-#
+Each planet represents a separate level.
 
-**Installation**
+The objective is to:
 
-Download the Build folder and click on the executable files to play the game. Available for Windows and Mac. 
+* explore the environment
+* collect **6 minerals**
+* fight hostile aliens
+* survive the level
+* return the collected samples for analysis
+
+At the end of each level, the spaceship computer analyzes the minerals and determines whether the planet could support human life.
+
+The game is completed once a suitable planet is discovered.
+
+---
+
+## ✨ Features
+
+* 2D jump-and-run gameplay
+* Multiple planets to explore
+* Combat against aliens
+* Mineral collection
+* Different level environments
+* Sci-fi story progression
+* Planet analysis after each mission
+
+---
+
+## 🕹️ Controls
+
+| Action | Key        |
+| ------ | ---------- |
+| Move   | Arrow Keys |
+| Jump   | Space      |
+| Shoot  | S          |
+
+Additional instructions are available from the game's main menu.
+
+---
+
+## 🌌 Story
+
+Earth has become uninhabitable after a series of catastrophic events.
+
+Dave, one of the last remaining humans, is selected for a mission to explore the universe and search for a new home for humanity.
+
+His spaceship provides access to potentially habitable planets. Each mission brings him one step closer to discovering whether humanity still has a future among the stars.
+
+---
+
+## 🌐 Play Online
+
+Space Explorer can be played directly in the browser on my personal website.
+
+[Play Space Explorer](https://timo7308.github.io/web-page/)
+
+---
+
+## 🎓 Context
+
+Space Explorer was developed as a game development project and combines:
+
+* 2D game mechanics
+* level design
+* character movement
+* combat systems
+* collectibles
+* basic game progression
+* interactive storytelling
+
+---
+
+## 📜 License
+
+This repository is provided for educational and portfolio purposes.
